@@ -8,7 +8,8 @@ class App extends Component {
         super();
 
         this.state = {
-            result: ""
+            result: "",
+            counterPoint: 0
         }
     }
 
@@ -26,9 +27,19 @@ class App extends Component {
         }
 
         else {
-            this.setState({
-                result: this.state.result + button
-            })
+
+            if(button === "."){
+                this.setState({
+                    counterPoint: this.state.counterPoint + 1
+                })
+                this.setState({
+                    result: this.state.result + (this.state.counterPoint % 2 !== 0 ? button : '')
+                })
+            } else {
+                this.setState({
+                    result: this.state.result + button
+                })
+            }
         }
     };
 
@@ -43,6 +54,8 @@ class App extends Component {
             checkResult = this.state.result
         }
 
+        checkResult = this.state.result.replaceAll('000','0')
+        if(checkResult.includes('*')) checkResult += '*2'
         try {
             this.setState({
                 // eslint-disable-next-line
