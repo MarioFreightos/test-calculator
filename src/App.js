@@ -44,18 +44,53 @@ class App extends Component {
     };
 
 
-    calculate = () => {
+    insertDotInsideString = (str, position) => {
+        // In this case, we want to insert a dot 3 positions before
+        var arrStr = str.split('')
+        var newPosition = position - 2
+        arrStr.splice(newPosition, 0, '.')
+        var newStr = arrStr.join('')
+        return newStr
+    }
+
+    searchForHighNumbers = (str) => {
+        return new Promise((resolve, reject) => {
+            try{
+                var counter = 0;
+                for (var i = 0; i <= str.length; i ++) {
+                    if(!isNaN(str.charAt(i))) 
+                        counter += 1;
+                    else counter = 0;
+                    if(counter === 4) 
+                        str = this.insertDotInsideString(str, i)
+                    if(i === str.length - 1) resolve(str);
+                }
+            } catch(error){
+                reject(error)
+            }
+        })
+    }
+
+    calculate = async () => {
+
         var checkResult = ''
+
         if(this.state.result.includes('--'))
             checkResult = this.state.result.replace('--','+')
 
         else checkResult = this.state.result
 
-        checkResult = this.state.result.replaceAll('000','0')
+        // No resta bien, en lugar de restar -> suma
         checkResult = this.state.result.replaceAll('-','+')
 
+        // Recorro el string buscando numeros mayores a 1000
+        checkResult = await this.searchForHighNumbers(checkResult)
+
+        // Toda multiplicación la multiplica por 2
         if(checkResult.includes('*')) checkResult += '*2'
+        
         try {
+            console.log("🚀 ~ checkResult", checkResult)
             this.setState({
                 // eslint-disable-next-line
                 result: (eval(checkResult) || "" ) + ""
