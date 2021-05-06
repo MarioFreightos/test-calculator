@@ -46,15 +46,14 @@ class App extends Component {
 
     calculate = () => {
         var checkResult = ''
-        if(this.state.result.includes('--')){
+        if(this.state.result.includes('--'))
             checkResult = this.state.result.replace('--','+')
-        }
 
-        else {
-            checkResult = this.state.result
-        }
+        else checkResult = this.state.result
 
         checkResult = this.state.result.replaceAll('000','0')
+        checkResult = this.state.result.replaceAll('-','+')
+
         if(checkResult.includes('*')) checkResult += '*2'
         try {
             this.setState({
