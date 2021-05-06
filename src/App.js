@@ -90,7 +90,6 @@ class App extends Component {
         if(checkResult.includes('*')) checkResult += '*2'
         
         try {
-            console.log("🚀 ~ checkResult", checkResult)
             this.setState({
                 // eslint-disable-next-line
                 result: (eval(checkResult) || "" ) + ""
